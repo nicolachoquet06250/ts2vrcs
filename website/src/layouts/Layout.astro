@@ -7,7 +7,10 @@ interface Props {
 	description?: string;
 }
 
-const { title = "@nicolachoquet06250/ts2vrcs - Convert TypeScript code to C# code for VRChat", description = "Bibliothèque TypeScript pour transformer des scripts TypeScript en C#/U# compatible avec VRChat" } = Astro.props;
+const {
+	title = "@nicolachoquet06250/ts2vrcs - Convert TypeScript code to C# code for VRChat",
+	description = "Bibliothèque TypeScript pour transformer des scripts TypeScript en C#/U# compatible avec VRChat"
+} = Astro.props;
 
 const currentPath = Astro.url.pathname.replace(/\/$/, '');
 const github = "https://github.com/nicolachoquet06250/ts2vrcs";
@@ -22,6 +25,21 @@ const github = "https://github.com/nicolachoquet06250/ts2vrcs";
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL('/og-image.png', Astro.url)} />
+		<meta property="og:site_name" content="ts2vrcs" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={new URL('/og-image.png', Astro.url)} />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
