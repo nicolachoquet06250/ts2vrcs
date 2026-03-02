@@ -10,7 +10,12 @@
     "noEmit": false,
     "declaration": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "#udon": ["./lib/udon.d.ts"]
+    },
+    "rootDirs": ["src", "lib"]
   },
-  "include": ["src", "lib"]
+  "include": ["src/**/*.ts", "lib/**/*.d.ts"]
 }

@@ -1,4 +1,4 @@
-import { UdonSharpBehaviour, DebugLog, UdonSynced, Networking } from '../lib/udon.js';
+import { UdonSharpBehaviour, DebugLog, UdonSynced, Networking } from '#udon';
 
 export class MyVRChatScript extends UdonSharpBehaviour {
     @UdonSynced()

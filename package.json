@@ -1,5 +1,6 @@
 {
-  "name": "ts2csvrc",
+  "name": "@nicolachoquet06250/ts2csvrc",
+  "description": "Bibliothèque de types typescript correspondant à la bibliothèque C#/U# de VRChat & Transpilleur de typescript vers C#/U#",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,6 +12,15 @@
   },
   "bin": {
     "ts2csvrc": "./dist/index.js"
+  },
+  "types": "lib/udon.d.ts",
+  "files": ["lib/udon.d.ts"],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolachoquet06250/ts2vrcs.git"
   },
   "devDependencies": {
     "@types/node": "^25.3.0",

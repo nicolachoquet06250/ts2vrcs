@@ -12,7 +12,7 @@ import {
     Time,
     Random,
     Mathf
-} from "../lib/udon.js";
+} from "#udon";
 
 export class ComprehensiveTest extends UdonSharpBehaviour {
     @UdonSynced()
