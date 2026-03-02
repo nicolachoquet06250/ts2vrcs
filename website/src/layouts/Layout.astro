@@ -1,0 +1,90 @@
+---
+import '../styles/global.css';
+import AnimatedBlur from '../components/AnimatedBlur.astro';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = "@nicolachoquet06250/ts2vrcs - Convert TypeScript code to C# code for VRChat", description = "Bibliothèque TypeScript pour transformer des scripts TypeScript en C#/U# compatible avec VRChat" } = Astro.props;
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '');
+const github = "https://github.com/nicolachoquet06250/ts2vrcs";
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+	</head>
+	<body class="bg-[#050505] text-white font-['Inter',_sans-serif] min-h-screen flex flex-col relative overflow-x-hidden">
+		<AnimatedBlur />
+		<header class="sticky top-0 z-50 w-full border-b border-white/10 bg-[#050505]/80 backdrop-blur-md relative">
+			<div class="container mx-auto px-4 h-16 flex items-center justify-between">
+				<a href="/" class="flex items-center gap-2 group">
+					<span class="text-xl font-bold bg-gradient-to-r from-orange-500 to-purple-600 bg-clip-text text-transparent group-hover:from-orange-400 group-hover:to-purple-500 transition-all">ts2vrcs</span>
+				</a>
+				<nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+					<a href="/docs/intro" class={`transition-colors ${currentPath.startsWith('/docs/intro') ? 'text-white' : 'text-white/70 hover:text-white'}`}>Documentation</a>
+					<a href="/docs/installation" class={`transition-colors ${currentPath === '/docs/installation' ? 'text-white' : 'text-white/70 hover:text-white'}`}>Installation</a>
+					<a href="/docs/usage" class={`transition-colors ${currentPath === '/docs/usage' ? 'text-white' : 'text-white/70 hover:text-white'}`}>Utilisation</a>
+					<a href={github} target="_blank" rel="noopener noreferrer" class="text-white/70 hover:text-white transition-colors">GitHub</a>
+				</nav>
+				<div class="flex items-center gap-4">
+					<a href="/docs/intro" class="px-4 py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200 transition-all">
+						Commencer
+					</a>
+				</div>
+			</div>
+		</header>
+		
+		<main class="flex-grow relative z-10">
+			<slot />
+		</main>
+
+		<footer class="border-t border-white/10 py-12 bg-[#050505] relative z-10">
+			<div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+				<div class="text-white/50 text-sm">
+					© {new Date().getFullYear()} | ts2vrcs | Fabriqué avec Astro.
+				</div>
+				<nav class="flex gap-8 text-sm text-white/50">
+					<a href={github} class="hover:text-white transition-colors">GitHub</a>
+					<a href="https://github.com/nicolachoquet06250/ts2vrcs/pkgs/npm/ts2vrcs" class="hover:text-white transition-colors">NPM</a>
+				</nav>
+			</div>
+		</footer>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+	}
+	html {
+		background: #050505;
+		scroll-behavior: smooth;
+	}
+	body {
+		margin: 0;
+	}
+	.container {
+		max-width: 1200px;
+	}
+</style>

@@ -1,0 +1,54 @@
+<div id="animated-blur-circle" class="fixed rounded-full pointer-events-none opacity-60 blur-3xl z-0 bg-purple-600/60 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"></div>
+
+<script>
+    function initAnimation() {
+        const circle = document.getElementById('animated-blur-circle');
+        
+        if (circle) {
+            let x = Math.random() * (window.innerWidth - 300);
+            let y = Math.random() * (window.innerHeight - 300);
+            let dx = (Math.random() - 0.5) * 10;
+            let dy = (Math.random() - 0.5) * 10;
+
+            function animate() {
+                const size = circle.offsetWidth;
+                x += dx;
+                y += dy;
+
+                if (x + size > window.innerWidth || x < 0) {
+                    dx *= -1;
+                    x = Math.max(0, Math.min(x, window.innerWidth - size));
+                }
+                if (y + size > window.innerHeight || y < 0) {
+                    dy *= -1;
+                    y = Math.max(0, Math.min(y, window.innerHeight - size));
+                }
+
+                circle.style.transform = `translate(${x}px, ${y}px)`;
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                 const size = circle.offsetWidth;
+                 if (x + size > window.innerWidth) x = window.innerWidth - size;
+                 if (y + size > window.innerHeight) y = window.innerHeight - size;
+            });
+        }
+    }
+
+    // Initialize on load
+    initAnimation();
+
+    // Re-initialize on view transitions if enabled
+    document.addEventListener('astro:after-swap', initAnimation);
+</script>
+
+<style>
+    #animated-blur-circle {
+        will-change: transform;
+        top: 0;
+        left: 0;
+    }
+</style>

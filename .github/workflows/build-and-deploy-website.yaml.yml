@@ -1,0 +1,68 @@
+name: Build and Deploy to AlwaysData
+
+on:
+  push:
+    branches: [ "main" ]
+
+    paths:
+      - 'website/**'
+
+env:
+  NODE_VERSION: '24'
+
+jobs:
+  build:
+    name: Build (Nuxt/Nitro)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build
+        run: cd website && npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: website/dist
+
+  deploy:
+    name: Deploy to AlwaysData (SSH)
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: build
+
+      - name: Debug artifact contents
+        run: |
+          echo "Listing downloaded artifact contents"
+          ls -laR build || true
+
+      - name: Copy files to server (SCP)
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          # Copy the built artifact folder contents
+          source: build
+          target: ${{ secrets.REMOTE_PATH }}
+          # Strip both the leading 'build' and 'artifact' directories
+          strip_components: 1
+          rm: true

@@ -1,0 +1,140 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const sidebar = [
+  {
+    label: 'Guides',
+    items: [
+      { label: 'Introduction', link: '/docs/intro' },
+      { label: 'Installation', link: '/docs/installation' },
+      { label: 'Utilisation', link: '/docs/usage' },
+    ],
+  },
+  {
+    label: 'Référence',
+    items: [
+      { label: 'API Reference', link: '/docs/reference/api' },
+      { label: 'Types & Constructions', link: '/docs/reference/types-mapping' },
+      { label: 'CLI', link: '/docs/reference/cli' },
+    ],
+  },
+];
+
+const { title, description } = Astro.props;
+const currentPath = Astro.url.pathname.replace(/\/$/, '');
+
+// Flatten the sidebar to easily find prev/next items
+const allItems = sidebar.flatMap(section => section.items);
+const currentIndex = allItems.findIndex(item => item.link === currentPath);
+const prevItem = currentIndex > 0 ? allItems[currentIndex - 1] : null;
+const nextItem = currentIndex !== -1 && currentIndex < allItems.length - 1 ? allItems[currentIndex + 1] : null;
+---
+
+<Layout title={title} description={description}>
+  <div class="container mx-auto px-4 py-12">
+    <div class="flex flex-col md:flex-row gap-12">
+      <!-- Sidebar -->
+      <aside class="w-full md:w-64 flex-shrink-0">
+        <nav class="sticky top-24 space-y-8">
+          {sidebar.map((section) => (
+            <div>
+              <h5 class="mb-4 text-sm font-semibold text-white uppercase tracking-wider">{section.label}</h5>
+              <ul class="space-y-2">
+                {section.items.map((item) => {
+                  const isActive = currentPath === item.link || (currentPath === '' && item.link === '/');
+                  return (
+                    <li>
+                      <a 
+                        href={item.link} 
+                        class={`text-sm transition-colors block py-1 ${
+                          isActive 
+                            ? "text-orange-500 font-medium" 
+                            : "text-gray-400 hover:text-white"
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </aside>
+
+      <!-- Main content -->
+      <article class="flex-grow max-w-3xl prose prose-invert prose-orange prose-headings:scroll-mt-24">
+        <slot />
+
+        <!-- Navigation buttons -->
+        <div class="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-4 not-prose">
+          {prevItem ? (
+            <a href={prevItem.link} class="flex-1 p-4 rounded-lg border border-white/10 hover:border-orange-500/50 hover:bg-orange-500/5 transition-all group">
+              <span class="block text-xs text-gray-500 mb-1">Précédent</span>
+              <span class="block text-white font-medium group-hover:text-orange-400">← {prevItem.label}</span>
+            </a>
+          ) : <div class="flex-1"></div>}
+          
+          <button 
+            id="back-to-top"
+            class="hidden items-center justify-center w-12 h-12 rounded-lg border border-white/10 hover:border-orange-500/50 hover:bg-orange-500/5 text-white hover:text-orange-400 transition-all cursor-pointer"
+            aria-label="Remonter en haut de page"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            </svg>
+          </button>
+
+          {nextItem ? (
+            <a href={nextItem.link} class="flex-1 p-4 rounded-lg border border-white/10 hover:border-orange-500/50 hover:bg-orange-500/5 transition-all text-right group">
+              <span class="block text-xs text-gray-500 mb-1">Suivant</span>
+              <span class="block text-white font-medium group-hover:text-orange-400">{nextItem.label} →</span>
+            </a>
+          ) : <div class="flex-1"></div>}
+        </div>
+      </article>
+    </div>
+  </div>
+</Layout>
+
+<script is:inline>
+  const backToTop = document.getElementById('back-to-top');
+  
+  const toggleBackToTop = () => {
+    if (backToTop) {
+      const isLongEnough = document.documentElement.scrollHeight > window.innerHeight * 2;
+      if (isLongEnough) {
+        backToTop.classList.remove('hidden');
+        backToTop.classList.add('flex');
+      } else {
+        backToTop.classList.add('hidden');
+        backToTop.classList.remove('flex');
+      }
+    }
+  };
+
+  // Initial check
+  toggleBackToTop();
+
+  // Re-check on resize (content might shift or window size might change)
+  window.addEventListener('resize', toggleBackToTop);
+
+  backToTop?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+<style is:global>
+  @reference "../styles/global.css";
+  /* Basic prose-like styles since we might not have @tailwindcss/typography installed */
+  .prose h1 { @apply text-4xl font-bold mb-8 text-white; }
+  .prose h2 { @apply text-2xl font-semibold mt-12 mb-6 text-white border-b border-white/10 pb-2; }
+  .prose h3 { @apply text-xl font-semibold mt-8 mb-4 text-white; }
+  .prose p { @apply text-gray-300 leading-7 mb-6; }
+  .prose ul { @apply list-disc list-inside mb-6 text-gray-300 space-y-2; }
+  .prose code { @apply bg-white/10 px-1.5 py-0.5 rounded text-sm font-mono text-orange-300; }
+  .prose pre { @apply bg-[#0d1117] p-4 rounded-lg overflow-x-auto mb-6 border border-white/10; }
+  .prose pre code { @apply bg-transparent p-0 text-gray-300; }
+  .prose a { @apply text-orange-400 hover:text-orange-300 transition-colors underline decoration-orange-400/30 underline-offset-4; }
+</style>
