@@ -6,6 +6,7 @@ on:
     paths:
       - 'website/**'
       - '!website/README.md'
+      - '!.github/**'
 
 env:
   NODE_VERSION: '24'
