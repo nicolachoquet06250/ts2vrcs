@@ -3,6 +3,7 @@ import { Command } from 'commander';
 import fs from 'fs';
 import path from 'path';
 import { Transpiler } from './transpiler.js';
+import packageJson from '../package.json' with { type: 'json' };
 
 const program = new Command();
 
@@ -57,7 +58,7 @@ function transpileDirectory(inputDir: string, outputRoot: string, cliOptions?: C
 program
     .name('ts2vrcs')
     .description('Compiles TypeScript to C# for UdonSharp (VRChat)')
-    .version('0.0.1')
+    .version(packageJson.version)
     .argument('<path>', 'TypeScript file or directory to compile')
     .option('-o, --output <dir>', 'Output directory', './dist-cs')
     .option('--sdk <version>', 'VRChat SDK version (e.g., sdk3-worlds, sdk3-avatars)')
