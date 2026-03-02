@@ -25,7 +25,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm i
+        run: cd website && npm i
 
       - name: Build
         run: cd website && npm run build
