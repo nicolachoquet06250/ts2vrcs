@@ -3,9 +3,9 @@ name: Build and Deploy to AlwaysData
 on:
   push:
     branches: [ "main" ]
-
     paths:
       - 'website/**'
+      - '!website/README.md'
 
 env:
   NODE_VERSION: '24'

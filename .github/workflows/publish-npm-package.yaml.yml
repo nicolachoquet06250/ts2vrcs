@@ -5,6 +5,7 @@ on:
 
     paths-ignore:
       - 'website/**'
+      - 'README.md'
 
 jobs:
   publish:
