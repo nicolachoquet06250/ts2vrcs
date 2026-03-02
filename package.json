@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "bin": {
-    "ts2vrcs": "./dist/index.js"
+    "ts2vrcs": "./dist/src/index.js"
   },
   "types": "lib/udon.d.ts",
   "files": ["lib/udon.d.ts", "dist"],
