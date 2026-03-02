@@ -1,5 +1,5 @@
 {
-  "name": "@nicolachoquet06250/ts2csvrc",
+  "name": "@nicolachoquet06250/ts2vrcs",
   "description": "Bibliothèque de types typescript correspondant à la bibliothèque C#/U# de VRChat & Transpilleur de typescript vers C#/U#",
   "private": false,
   "version": "0.0.0",
@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "bin": {
-    "ts2csvrc": "./dist/index.js"
+    "ts2vrcs": "./dist/index.js"
   },
   "types": "lib/udon.d.ts",
   "files": ["lib/udon.d.ts"],

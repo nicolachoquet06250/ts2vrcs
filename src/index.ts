@@ -55,7 +55,7 @@ function transpileDirectory(inputDir: string, outputRoot: string, cliOptions?: C
 }
 
 program
-    .name('ts2csvrc')
+    .name('ts2vrcs')
     .description('Compiles TypeScript to C# for UdonSharp (VRChat)')
     .version('0.0.1')
     .argument('<path>', 'TypeScript file or directory to compile')
